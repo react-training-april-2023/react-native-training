@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import DataDisplay from './components/DataDisplay';
+import BookStore from './components/book/BookStore';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    // <View style={styles.container}>
+    //   <Text>Hello React Native!</Text>
+    //   <StatusBar style="auto" />
+    // </View>
+    // <DataDisplay></DataDisplay>
+    <BookStore></BookStore>
   );
 }
 

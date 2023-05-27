@@ -1,0 +1,15 @@
+in the terminal
+----------------------------
+1. make sure to have node 12 and above
+2. install expo cli globally
+        npm install -g expo-cli
+3. now create the first expo project
+        expo init myfirstreactnativeproj
+4. move into the project folder
+    
+
+    extensions
+        - react native tool 
+        - react-native/react/redux snippet
+        - prettier-code
+        - material icon theme
