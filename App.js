@@ -2,6 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import DataDisplay from './components/DataDisplay';
 import BookStore from './components/book/BookStore';
+import BookStoreReduxThunk from './components/book-redux-thunk/BookStoreReduxThunk';
+import { Provider } from 'react-redux';
+import store from './components/book-redux-thunk/store/store';
 
 export default function App() {
   return (
@@ -10,7 +13,11 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     // <DataDisplay></DataDisplay>
-    <BookStore></BookStore>
+    // <BookStore></BookStore>
+    <Provider store={store}>
+       <BookStoreReduxThunk></BookStoreReduxThunk>
+    </Provider>
+    
   );
 }
 

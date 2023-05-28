@@ -1,53 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, SafeAreaView, View, Text, ScrollView, Image, Button, TextInput } from 'react-native';
+import { getAllBooksThunkActionCreator, successFetchAllBooksActionCreator } from './actions/bookActions';
+import { connect } from 'react-redux';
  
-function BookStore() {
+function BookStoreReduxThunk(props) {
     const [searchGenre, setSearchGenre] = useState('');
-    const [allBooks, setAllBooks] = useState([
-      {
-        "id": 101,
-        "bookTitle": "Harry Potter and the Order Of Phoenix",
-        "bookAuthor": "J.K.Rowling",
-        "bookGenre": "Fiction",
-        "bookCost": "200",
-        "bookImageUrl": "https://images.unsplash.com/photo-1609866138210-84bb689f3c61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=469&q=80"
-      },
-      {
-        "id": 102,
-        "bookTitle": "Harry Potter and the Sorcerers' Stone",
-        "bookAuthor": "J.K.Rowling",
-        "bookGenre": "Fiction",
-        "bookCost": "300",
-        "bookImageUrl": "https://images.unsplash.com/photo-1600189261867-30e5ffe7b8da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-      },
-      {
-        "id": 103,
-        "bookTitle": "Harry Potter and the Sorcerers' Stone",
-        "bookAuthor": "J.K.Rowling",
-        "bookGenre": "Fiction",
-        "bookCost": "450",
-        "bookImageUrl": "https://images.unsplash.com/photo-1600189261867-30e5ffe7b8da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-      },
-      {
-        "id": 104,
-        "bookTitle": "Harry Potter and the Sorcerers' Stone",
-        "bookAuthor": "J.K.Rowling",
-        "bookGenre": "Comedy",
-        "bookCost": "350",
-        "bookImageUrl": "https://images.unsplash.com/photo-1600189261867-30e5ffe7b8da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-      
-      }
-    ]);
-    const [filteredBooks, setFilteredBooks] = useState(allBooks);
+    //const [allBooks, setAllBooks] = useState([]);
+    //const [filteredBooks, setFilteredBooks] = useState(allBooks);
+
+    useEffect(()=>{
+      props.fetchAllBooksProps();
+    }, [])
 
     const handleRemove = (bookId)=>{
-        setAllBooks(allBooks.filter(eachBook=>eachBook.id!=bookId))
+       // setAllBooks(allBooks.filter(eachBook=>eachBook.id!=bookId))
     }  
 
     const renderBookStore = ()=>{
         return (
-            filteredBooks.map((eachBook)=>(
+            // filteredBooks.map((eachBook)=>(
+                props.allBooksProps.map((eachBook)=>(
                 <View style={styles.listView} key={eachBook.id}>
                     <Text style={styles.bookTitlle}>{eachBook.bookTitle}</Text>
                     <Image  
@@ -67,14 +40,14 @@ function BookStore() {
     }
 
     const handleSearchGenre = (newSearchGenre) => {
-        if(newSearchGenre=='')
-           setFilteredBooks(allBooks)
-        setFilteredBooks(allBooks.filter((eachBook)=>eachBook.bookGenre.includes(newSearchGenre)));
+        // if(newSearchGenre=='')
+        //    setFilteredBooks(allBooks)
+        // setFilteredBooks(allBooks.filter((eachBook)=>eachBook.bookGenre.includes(newSearchGenre)));
     }
 
     return ( 
         <SafeAreaView style={styles.container}>
-            <Text style={styles.titleText}>Book Store - Mobile App</Text>
+            <Text style={styles.titleText}>Book Store Redux Thunk - Mobile App</Text>
             <TextInput
                 style={{height:40}}
                 placeHolder="Search By Genre"
@@ -113,4 +86,19 @@ const styles = StyleSheet.create({
     }
 })
 
-export default BookStore;
+const mapStateToProps = (state)=> {
+    console.log("state in mapStateToProps...", state);
+    return {
+        allBooksProps: state.data,
+        //errorProps: state.error
+    }
+}
+  
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        //fetchAllBooksProps: ()=>dispatch(successFetchAllBooksActionCreator())
+        fetchAllBooksProps: ()=>dispatch(getAllBooksThunkActionCreator())
+    }
+}
+  
+export default connect(mapStateToProps, mapDispatchToProps)(BookStoreReduxThunk);
